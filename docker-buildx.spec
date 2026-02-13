@@ -1,7 +1,7 @@
 %undefine _debugsource_packages
 
 Name:		docker-buildx
-Version:	0.30.0
+Version:	0.31.1
 Release:	1
 Source0:	https://github.com/docker/buildx/archive/refs/tags/v%{version}.tar.gz
 Summary:	Docker CLI plugin for extended build capabilities with BuildKit
@@ -20,11 +20,13 @@ Docker CLI plugin for extended build capabilities with BuildKit
 %conf
 
 %build
-VERSION=%{version} REVISION=%{release} hack/build
+#VERSION=%{version} REVISION=%{release} hack/build
+export CGO_ENABLED=1
+go build -mod=vendor -buildmode=pie -ldflags "-X github.com/docker/buildx/version.Version=%{version} -X github.com/docker/buildx/version.Revision=%{release}" -o docker-buildx ./cmd/buildx
 
 %install
 install -d -m 0755 %{buildroot}/%{_libexecdir}/docker/cli-plugins
-install -p -m 0755 bin/build/docker-buildx %{buildroot}/%{_libexecdir}/docker/cli-plugins/
+install -p -m 0755 docker-buildx %{buildroot}/%{_libexecdir}/docker/cli-plugins/
 
 %files
 %dir %{_libexecdir}/docker
