@@ -1,7 +1,7 @@
 %undefine _debugsource_packages
 
 Name:		docker-buildx
-Version:	0.31.1
+Version:	0.32.1
 Release:	1
 Source0:	https://github.com/docker/buildx/archive/refs/tags/v%{version}.tar.gz
 Summary:	Docker CLI plugin for extended build capabilities with BuildKit
